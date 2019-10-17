@@ -24,18 +24,18 @@ Route::group([
      | auth
      |
      */
-    Route::group([
-        'namespace' => 'Api',
-        'prefix'    => 'auth'
-    ], function($router) {
-        Route::post('login'  , 'AuthController@login');
-        Route::post('logout' , 'AuthController@logout');
-        Route::post('refresh', 'AuthController@refresh');
-        Route::post('me'     , 'AuthController@me');
-    });
+//    Route::group([
+//        'namespace' => 'Api',
+//        'prefix'    => 'auth'
+//    ], function($router) {
+//        Route::post('login'  , 'AuthController@login');
+//        Route::post('logout' , 'AuthController@logout');
+//        Route::post('refresh', 'AuthController@refresh');
+//        Route::post('me'     , 'AuthController@me');
+//    });
 
     /*
-     | http://localhost/dwr-api/public/api/v1/pessoa/
+     | http://localhost/api/public/api/v1/pessoa/
      |
      */
     Route::group([
@@ -43,13 +43,14 @@ Route::group([
         'prefix'     => 'pessoa',
     ], function($router) {
         Route::get('index'          , 'PessoaController@index');
+        Route::get('show/{id}'      , 'PessoaController@show');
         Route::post('store'         , 'PessoaController@store');
         Route::put('update/{id}'    , 'PessoaController@update');
         Route::delete('destroy/{id}', 'PessoaController@destroy');
     });
     
     /*
-     | http://localhost/dwr-api/public/api/v1/endereco/
+     | http://localhost/api/public/api/v1/endereco/
      |
      */
     Route::group([
@@ -57,13 +58,14 @@ Route::group([
         'prefix'     => 'endereco',
     ], function($router) {
         Route::get('index'          , 'EnderecoController@index');
+        Route::get('show/{id}'      , 'EnderecoController@show');
         Route::post('store'         , 'EnderecoController@store');
         Route::put('update/{id}'    , 'EnderecoController@update');
         Route::delete('destroy/{id}', 'EnderecoController@destroy');
     });
     
     /*
-     | http://localhost/dwr-api/public/api/v1/tipo-contato/
+     | http://localhost/api/public/api/v1/tipo-contato/
      |
      */
     Route::group([
@@ -71,13 +73,14 @@ Route::group([
         'prefix'     => 'tipo-contato',
     ], function($router) {
         Route::get('index'          , 'TipoContatoController@index');
+        Route::get('show/{id}'      , 'TipoContatoController@show');
         Route::post('store'         , 'TipoContatoController@store');
         Route::put('update/{id}'    , 'TipoContatoController@update');
         Route::delete('destroy/{id}', 'TipoContatoController@destroy');
     });
     
     /*
-     | http://localhost/dwr-api/public/api/v1/contato/
+     | http://localhost/api/public/api/v1/contato/
      |
      */
     Route::group([
@@ -85,6 +88,7 @@ Route::group([
         'prefix'     => 'contato',
     ], function($router) {
         Route::get('index'          , 'ContatoController@index');
+        Route::get('show/{id}'      , 'ContatoController@show');
         Route::post('store'         , 'ContatoController@store');
         Route::put('update/{id}'    , 'ContatoController@update');
         Route::delete('destroy/{id}', 'ContatoController@destroy');

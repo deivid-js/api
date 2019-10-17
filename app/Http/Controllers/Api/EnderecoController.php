@@ -39,6 +39,13 @@ class EnderecoController extends Controller {
         ]);
     }
     
+    public function show($id) {
+        return response()->json([
+            'message' => 'Ok',
+            'data'    => Endereco::find($id)
+        ]);
+    }
+    
     /**
      * 
      * @param Request $request

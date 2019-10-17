@@ -28,6 +28,13 @@ class ContatoController extends Controller {
         ]);
     }
     
+    public function show($id) {
+        return response()->json([
+            'message' => 'Ok',
+            'data'    => Contato::find($id)
+        ]);
+    }
+    
     /**
      * 
      * @param Request $request

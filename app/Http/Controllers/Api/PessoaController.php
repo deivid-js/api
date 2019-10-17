@@ -26,6 +26,13 @@ class PessoaController extends Controller {
         ]);
     }
     
+    public function show($id) {
+        return response()->json([
+            'message' => 'Ok',
+            'data'    => Pessoa::find($id)
+        ]);
+    }
+    
     /**
      * 
      * @param Request $request
@@ -34,7 +41,7 @@ class PessoaController extends Controller {
     public function store(Request $request) {
         $validator = Validator::make($request->all(), [
             'psonome'    => 'required|max:100',
-            'psocpfcnpj' => 'required|integer|max:14',
+            'psocpfcnpj' => 'required|integer',
             'psotipo'    => 'required|max:1',
         ]);
         
@@ -47,6 +54,8 @@ class PessoaController extends Controller {
         
         $data = $request->only(['psonome', 'psocpfcnpj', 'psotipo']);
         
+        $length = strtoupper($data['psotipo']) == 'F' ? 11 : 14;
+        
         if ($this->hasBeenRegistred($data['psocpfcnpj'])){
             return response()->json([
                 'message' => 'Violated constraint <tbpessoa_psocpfcnpj_unique>'
@@ -54,6 +63,10 @@ class PessoaController extends Controller {
         } else if (!in_array($data['psotipo'], ['F', 'J'])) {
             return response()->json([
                 'message' => 'Invalid param <psotipo>'
+            ], 400);
+        } else if (strlen($data['psocpfcnpj']) > $length) {
+            return response()->json([
+                'message' => 'Invalid field length <psocpfcnpj> expected ' . $length . ' or above'
             ], 400);
         }
         
@@ -73,7 +86,7 @@ class PessoaController extends Controller {
     public function update(Request $request, $id) {
         $validator = Validator::make($request->all(), [
             'psonome'    => 'max:100',
-            'psocpfcnpj' => 'max:14',
+            'psocpfcnpj' => 'integer',
             'psotipo'    => 'max:1',
         ]);
         
@@ -90,6 +103,24 @@ class PessoaController extends Controller {
             return response()->json([
                 'message' => 'No data found'
             ], 404);
+        }
+        
+        $psotipo    = $request->input('psotipo');
+        $psocpfcnpj = $request->input('psocpfcnpj');
+        $psotipo    = $request->input('psotipo');
+        
+        $psotipoAux = is_null($psotipo) ? $model->psotipo : $psotipo;
+        
+        $length = strtoupper($psotipoAux) == 'F' ? 11 : 14;
+        
+        if (!is_null($psotipo) && !in_array($psotipo, ['F', 'J'])) {
+            return response()->json([
+                'message' => 'Invalid param <psotipo>'
+            ], 400);
+        } else if (!is_null($psocpfcnpj) && strlen($psocpfcnpj) > $length) {
+            return response()->json([
+                'message' => 'Invalid field length <psocpfcnpj> expected ' . $length . ' or above'
+            ], 400);
         }
         
         $hasUpdates = $this->loadModelFromRequest([

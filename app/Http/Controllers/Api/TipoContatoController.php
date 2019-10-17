@@ -26,6 +26,13 @@ class TipoContatoController extends Controller {
         ]);
     }
     
+    public function show($id) {
+        return response()->json([
+            'message' => 'Ok',
+            'data'    => TipoContato::find($id)
+        ]);
+    }
+    
     /**
      * 
      * @param Request $request
