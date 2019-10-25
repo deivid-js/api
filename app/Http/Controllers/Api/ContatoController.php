@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\ApiController;
 use App\Models\TipoContato;
 use App\Models\Contato;
 use App\Models\Pessoa;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Traits\ParamErrorTrait;
 use App\Http\Traits\LoadModelFromRequestTrait;
 
-class ContatoController extends Controller {
+class ContatoController extends ApiController {
     
     use ParamErrorTrait, LoadModelFromRequestTrait;
     

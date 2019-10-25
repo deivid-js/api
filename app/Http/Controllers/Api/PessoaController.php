@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\ApiController;
 use App\Models\Pessoa;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Traits\ParamErrorTrait;
 use App\Http\Traits\LoadModelFromRequestTrait;
 
-class PessoaController extends Controller {
+class PessoaController extends ApiController {
     
     use ParamErrorTrait, LoadModelFromRequestTrait;
     

@@ -24,15 +24,15 @@ Route::group([
      | auth
      |
      */
-//    Route::group([
-//        'namespace' => 'Api',
-//        'prefix'    => 'auth'
-//    ], function($router) {
-//        Route::post('login'  , 'AuthController@login');
-//        Route::post('logout' , 'AuthController@logout');
-//        Route::post('refresh', 'AuthController@refresh');
-//        Route::post('me'     , 'AuthController@me');
-//    });
+    Route::group([
+        'namespace' => 'Api',
+        'prefix'    => 'auth'
+    ], function($router) {
+        Route::post('login'  , 'AuthController@login');
+        Route::post('logout' , 'AuthController@logout');
+        Route::post('refresh', 'AuthController@refresh');
+        Route::post('me'     , 'AuthController@me');
+    });
 
     /*
      | http://localhost/api/public/api/v1/pessoa/

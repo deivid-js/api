@@ -28,10 +28,10 @@ class AuthController extends Controller {
      * 
      * @return array
      */
-    public function login(Request $request) {        
+    public function login(Request $request) {
         $validator = Validator::make($request->all(), [
             'usuemail' => 'required|max:100',
-            'ususenha' => 'required|max:100'
+            'password' => 'required|max:100'
         ]);
         
         if ($validator->fails()) {
@@ -41,9 +41,9 @@ class AuthController extends Controller {
             ], 400);
         }
         
-        $credentials = $request->only(['usuemail', 'ususenha']);
+        $credentials = $request->only(['usuemail', 'password']);
         
-        if (!$token = auth()->attempt($credentials)) {
+        if (!$token = auth('api')->attempt($credentials)) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
         

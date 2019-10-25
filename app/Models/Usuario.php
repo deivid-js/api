@@ -5,21 +5,31 @@ namespace App\Models;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-//use App\Accessors\UsuarioAccessor;
 
 class Usuario extends Authenticatable implements JWTSubject {
     
-    use Notifiable /*, UsuarioAccessor */;
-    
+    use Notifiable;
+
     public $timestamps = false;
     
     public $incrementing = false;
+
+    protected $hidden = ['password'];
     
     protected $table = 'tbusuario';
     
     protected $primaryKey = 'usucodigo';
+
+    const CREATE_AT = 'usudatahorainsercao';
+
+    const UPDATED_AT = 'usudatahoramodificacao';
     
-    protected $fillable = ['name'];
+    protected $fillable = [
+        'psocodigo',
+        'usuemail',
+        'password',
+        'usuativo'
+    ];
     
     /**
      * {@inheritdoc}
@@ -37,7 +47,7 @@ class Usuario extends Authenticatable implements JWTSubject {
     
     public function setUsusenhaAttribute($password) {
         if ($password !== null & $password !== "") {
-            $this->attributes['ususenha'] = bcrypt($password);
+            $this->attributes['password'] = bcrypt($password);
         }
     }
     
