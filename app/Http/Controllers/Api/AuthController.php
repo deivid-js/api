@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Traits\ParamErrorTrait;
+use App\Models\Usuario;
+use JWTAuth;
+use Hash;
 
 /**
  * Responsável por requisições referentes a autenticação JWT
@@ -31,7 +34,7 @@ class AuthController extends Controller {
     public function login(Request $request) {
         $validator = Validator::make($request->all(), [
             'usuemail' => 'required|max:100',
-            'password' => 'required|max:100'
+            'ususenha' => 'required|max:100'
         ]);
         
         if ($validator->fails()) {
@@ -41,12 +44,20 @@ class AuthController extends Controller {
             ], 400);
         }
         
-        $credentials = $request->only(['usuemail', 'password']);
-        
-        if (!$token = auth('api')->attempt($credentials)) {
-            return response()->json(['message' => 'Unauthorized'], 401);
+        $credentials = $request->only(['usuemail', 'ususenha']);
+		
+		$user = Usuario::where('usuemail' , $credentials['usuemail'])->first();
+		
+		if (!$user) {
+            return response()->json(['message' => 'Usuário não encontrado'], 404);
         }
-        
+		
+		if (!Hash::check($credentials['ususenha'], $user->ususenha)) {
+            return response()->json(['message' => 'Senha inválida'], 401);
+        }
+
+        $token = JWTAuth::fromUser($user);
+
         return $this->respondWithToken($token);
     }
 
@@ -86,10 +97,8 @@ class AuthController extends Controller {
      */
     protected function respondWithToken($token) {
         return response()->json([
-            'message'     => 'Token successfully created',
-            'accessToken' => $token,
-            'tokenType'   => 'bearer',
-            'expiresIn'   => $this->guard()->factory()->getTTL() * 60
+            'message'      => 'Token successfully created',
+            'access_token' => $token
         ]);
     }
     

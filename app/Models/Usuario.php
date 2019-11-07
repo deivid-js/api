@@ -14,7 +14,7 @@ class Usuario extends Authenticatable implements JWTSubject {
     
     public $incrementing = false;
 
-    protected $hidden = ['password'];
+    protected $hidden = ['ususenha'];
     
     protected $table = 'tbusuario';
     
@@ -27,7 +27,7 @@ class Usuario extends Authenticatable implements JWTSubject {
     protected $fillable = [
         'psocodigo',
         'usuemail',
-        'password',
+        'ususenha',
         'usuativo'
     ];
     
@@ -47,7 +47,7 @@ class Usuario extends Authenticatable implements JWTSubject {
     
     public function setUsusenhaAttribute($password) {
         if ($password !== null & $password !== "") {
-            $this->attributes['password'] = bcrypt($password);
+            $this->attributes['ususenha'] = bcrypt($password);
         }
     }
     
